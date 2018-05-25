@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from selenium.webdriver.firefox.webdriver import WebDriver
-from selenium.webdriver.common.action_chains import ActionChains
-import time, unittest
+import unittest
 
 def is_alert_present(wd):
     try:
@@ -12,13 +11,23 @@ def is_alert_present(wd):
 
 class test_add_contact(unittest.TestCase):
     def setUp(self):
-        self.wd = WebDriver()
+        self.wd = WebDriver(capabilities={"marionette": False},
+                            firefox_binary="C:/Program Files/Mozilla Firefox/firefox.exe")
         self.wd.implicitly_wait(60)
     
     def test_test_add_contact(self):
-        success = True
         wd = self.wd
+        self.open_home_page(wd)
+        self.login(wd)
+        self.open_add_new_page(wd)
+        self.feel_address_book_entry_form(wd)
+        self.submit_group_creation(wd)
+        self.logout(wd)
+
+    def open_home_page(self, wd):
         wd.get("http://localhost/addressbook/")
+
+    def login(self, wd):
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys("admin")
@@ -26,7 +35,11 @@ class test_add_contact(unittest.TestCase):
         wd.find_element_by_name("pass").clear()
         wd.find_element_by_name("pass").send_keys("secret")
         wd.find_element_by_xpath("//form[@id='LoginForm']/input[3]").click()
+
+    def open_add_new_page(self, wd):
         wd.find_element_by_link_text("add new").click()
+
+    def feel_address_book_entry_form(self, wd):
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys("Olga")
@@ -99,10 +112,13 @@ class test_add_contact(unittest.TestCase):
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys("bbbbb")
+
+    def submit_group_creation(self, wd):
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+
+    def logout(self, wd):
         wd.find_element_by_link_text("Logout").click()
-        self.assertTrue(success)
-    
+
     def tearDown(self):
         self.wd.quit()
 

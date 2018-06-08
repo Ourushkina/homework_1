@@ -67,6 +67,15 @@ class ContactHelper:
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(contact.notes)
 
+    def delete_first_contact(self):
+        wd = self.app.wd
+        # select first contact
+        wd.find_element_by_name("selected[]").click()
+        # submit deletion
+        wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
+        # confirmation
+        wd.switch_to_alert().accept()
+
     def submit_group_creation(self):
         wd = self.app.wd
         self.submit_group_creation()

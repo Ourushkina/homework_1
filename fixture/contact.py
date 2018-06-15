@@ -67,6 +67,21 @@ class ContactHelper:
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(contact.notes)
 
+    def edit_first_contact(self):
+        wd = self.app.wd
+        # select first contact
+        wd.find_element_by_name("selected[]").click()
+        # edit first contact
+        wd.find_element_by_xpath("//div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a/img").click()
+        wd.find_element_by_name("bday").click()
+        wd.find_element_by_xpath("//div[@id='content']/form[1]/select[1]//option[29]").click()
+        wd.find_element_by_name("bmonth").click()
+        wd.find_element_by_xpath("//div[@id='content']/form[1]/select[2]//option[7]").click()
+        wd.find_element_by_name("byear").click()
+        wd.find_element_by_name("byear").clear()
+        wd.find_element_by_name("byear").send_keys("1988")
+        wd.find_element_by_xpath("//div[@id='content']/form[1]/input[22]").click()
+
     def delete_first_contact(self):
         wd = self.app.wd
         # select first contact

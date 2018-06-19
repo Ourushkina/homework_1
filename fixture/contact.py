@@ -9,7 +9,7 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_link_text("add new").click()
 
-    def fill_address_book_entry_form(self, contact):
+    def create(self, contact):
         wd = self.app.wd
         self.open_add_new_page()
         self.fill_contact_form(contact)

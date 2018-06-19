@@ -66,6 +66,7 @@ class ContactHelper:
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(contact.notes)
+        wd.find_element_by_name("submit").click()
 
     def edit_first_contact(self):
         wd = self.app.wd
@@ -80,7 +81,7 @@ class ContactHelper:
         wd.find_element_by_name("byear").click()
         wd.find_element_by_name("byear").clear()
         wd.find_element_by_name("byear").send_keys("1988")
-        wd.find_element_by_xpath("//div[@id='content']/form[1]/input[22]").click()
+        wd.find_element_by_name("update").click()
 
     def delete_first_contact(self):
         wd = self.app.wd

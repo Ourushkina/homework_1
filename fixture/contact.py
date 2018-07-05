@@ -1,3 +1,4 @@
+from model.contact import Contact
 
 
 class ContactHelper:
@@ -19,6 +20,7 @@ class ContactHelper:
         self.open_add_new_page()
         self.fill_contact_form(contact)
         wd.find_element_by_name("submit").click()
+        self.open_home_page()
 
     def fill_contact_form(self, contact):
         wd = self.app.wd
@@ -57,6 +59,7 @@ class ContactHelper:
         self.fill_contact_form(new_contact_data)
         # submit modification
         wd.find_element_by_name("update").click()
+        self.open_home_page()
 
     def delete_first_contact(self):
         wd = self.app.wd
@@ -65,6 +68,7 @@ class ContactHelper:
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         # confirmation
         wd.switch_to_alert().accept()
+        self.open_home_page()
 
     def select_first_contact(self):
         wd = self.app.wd
@@ -78,6 +82,17 @@ class ContactHelper:
     def count(self):
         wd = self.app.wd
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        contacts = []
+        for element in wd.find_elements_by_name("entry"):
+            id = element.find_element_by_css_selector("input[type='checkbox']").get_attribute("value")
+            lastname = element.find_element_by_css_selector("td:nth-child(2)")  # find_element_by_xpath('//tr/td[2]')
+            # print(lastname.get_attribute("textContent"))
+            firstname = element.find_element_by_css_selector("td:nth-child(3)").get_attribute("textContent")
+            contacts.append(Contact(firstname=firstname, lastname=lastname, id=id))
+        return contacts
 
 
 

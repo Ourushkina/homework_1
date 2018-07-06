@@ -88,7 +88,7 @@ class ContactHelper:
         contacts = []
         for element in wd.find_elements_by_name("entry"):
             id = element.find_element_by_css_selector("input[type='checkbox']").get_attribute("value")
-            lastname = element.find_element_by_css_selector("td:nth-child(2)")  # find_element_by_xpath('//tr/td[2]')
+            lastname = element.find_element_by_css_selector("td:nth-child(2)").get_attribute("textContent")  # find_element_by_xpath('//tr/td[2]')
             # print(lastname.get_attribute("textContent"))
             firstname = element.find_element_by_css_selector("td:nth-child(3)").get_attribute("textContent")
             contacts.append(Contact(firstname=firstname, lastname=lastname, id=id))

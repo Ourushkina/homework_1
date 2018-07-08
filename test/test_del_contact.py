@@ -6,10 +6,8 @@ def test_delete_some_contact(app):
     if app.contact.count() == 0:
         app.contact.create(Contact(firstname="test"))
     old_contacts = app.contact.get_contact_list()
-    # print(len(old_contacts))
     index = randrange(len(old_contacts))
     app.contact.delete_contact_by_index(index)
-    # print(len(new_contacts))
     assert len(old_contacts) - 1 == app.contact.count()
     new_contacts = app.contact.get_contact_list()
     old_contacts[index:index+1] = []

@@ -26,11 +26,7 @@ class ContactHelper:
     def fill_contact_form(self, contact):
         wd = self.app.wd
         self.change_field_value_contact("firstname", contact.firstname)
-        self.change_field_value_contact("middlename", contact.middlename)
         self.change_field_value_contact("lastname", contact.lastname)
-        self.change_field_value_contact("nickname", contact.nickname)
-        self.change_field_value_contact("title", contact.title)
-        self.change_field_value_contact("company", contact.company)
         self.change_field_value_contact("address", contact.address)
         self.change_field_value_contact("home", contact.home)
         self.change_field_value_contact("mobile", contact.mobile)
@@ -39,10 +35,6 @@ class ContactHelper:
         self.change_field_value_contact("email", contact.email)
         self.change_field_value_contact("email2", contact.email2)
         self.change_field_value_contact("email3", contact.email3)
-        self.change_field_value_contact("homepage", contact.homepage)
-        self.change_field_value_contact("address2", contact.address2)
-        self.change_field_value_contact("phone2", contact.phone2)
-        self.change_field_value_contact("notes", contact.notes)
 
     def change_field_value_contact(self, field_firstname, text):
         wd = self.app.wd

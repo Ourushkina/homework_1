@@ -1,5 +1,5 @@
 from model.contact import Contact
-
+import time
 
 class ContactHelper:
 
@@ -54,8 +54,14 @@ class ContactHelper:
     def modify_first_contact(self):
         self.modify_contact_by_index(0)
 
+    def select_contact_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
+
     def modify_contact_by_index(self, index, new_contact_data):
         wd = self.app.wd
+        time.sleep(2)
+        print("asdasdasdsa",index)
         self.open_modification_form(index)
         # fill contact form
         self.fill_contact_form(new_contact_data)
@@ -66,7 +72,7 @@ class ContactHelper:
 
     def open_modification_form(self, index):
         wd = self.app.wd
-        wd.find_element_by_xpath("//div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a/img").click()
+        wd.find_elements_by_xpath("//table[@id='maintable']/tbody/tr/td[8]")[index].click()
 
     def delete_first_contact(self):
         self.delete_contact_by_index(0)
@@ -84,10 +90,6 @@ class ContactHelper:
     def select_first_contact(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
-
-    def select_contact_by_index(self, index):
-        wd = self.app.wd
-        wd.find_elements_by_name("selected[]")[index].click()
 
     def submit_group_creation(self):
         wd = self.app.wd
@@ -110,6 +112,7 @@ class ContactHelper:
                 firstname = element.find_element_by_css_selector("td:nth-child(3)").get_attribute("textContent")
                 self.contact_cache.append(Contact(firstname=firstname, lastname=lastname, id=id))
         return list(self.contact_cache)
+
 
 
 

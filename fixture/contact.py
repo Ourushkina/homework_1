@@ -1,5 +1,5 @@
 from model.contact import Contact
-
+import time
 
 class ContactHelper:
 
@@ -46,6 +46,10 @@ class ContactHelper:
     def modify_first_contact(self):
         self.modify_contact_by_index(0)
 
+    def select_contact_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
+
     def modify_contact_by_index(self, index, new_contact_data):
         wd = self.app.wd
         self.open_modification_form(index)
@@ -58,7 +62,7 @@ class ContactHelper:
 
     def open_modification_form(self, index):
         wd = self.app.wd
-        wd.find_element_by_xpath("//div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a/img").click()
+        wd.find_elements_by_xpath("//table[@id='maintable']/tbody/tr/td[8]")[index].click()
 
     def delete_first_contact(self):
         self.delete_contact_by_index(0)
@@ -77,10 +81,6 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
 
-    def select_contact_by_index(self, index):
-        wd = self.app.wd
-        wd.find_elements_by_name("selected[]")[index].click()
-
     def submit_group_creation(self):
         wd = self.app.wd
         self.submit_group_creation()
@@ -93,15 +93,33 @@ class ContactHelper:
     contact_cache = None
 
     def get_contact_list(self):
+    # читает таблицу на главной странице приложения и загружает оттуда информацию о контакте
         if self.contact_cache is None:
             wd = self.app.wd
             self.contact_cache = []
-            for element in wd.find_elements_by_name("entry"):
-                id = element.find_element_by_css_selector("input[type='checkbox']").get_attribute("value")
-                lastname = element.find_element_by_css_selector("td:nth-child(2)").get_attribute("textContent")
-                firstname = element.find_element_by_css_selector("td:nth-child(3)").get_attribute("textContent")
+            for row in wd.find_elements_by_name("entry"):
+                cells = row.find_elements_by_tag_name("td")
+                firstname = cells[1].text
+                lastname = cells[2].text
+                id = cells[0].find_elements_by_name("input").get_attribute("value")
                 self.contact_cache.append(Contact(firstname=firstname, lastname=lastname, id=id))
         return list(self.contact_cache)
+
+    def open_contact_to_edit_by_index(self, index):
+        # открывает форму редактирования контакта
+        wd = self.app.wd
+        self.app.open_home_page()
+        row = wd.find_elements_by_name("entry")[index]
+        cell = row.find_elements_by_tag_name("td")[7]
+        cell.find_element_by_teg_name("a").click()
+
+    def open_contact_view_by_index(self, index):
+        # открывает страницу просмотра детальной информации о контакте
+        wd = self.app.wd
+        self.app.open_home_page()
+        row = wd.find_elements_by_name("entry")[index]
+        cell = row.find_elements_by_tag_name("td")[7]
+        cell.find_element_by_teg_name("a").click()
 
 
 

@@ -60,8 +60,6 @@ class ContactHelper:
 
     def modify_contact_by_index(self, index, new_contact_data):
         wd = self.app.wd
-        time.sleep(2)
-        print("asdasdasdsa",index)
         self.open_modification_form(index)
         # fill contact form
         self.fill_contact_form(new_contact_data)

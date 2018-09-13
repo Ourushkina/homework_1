@@ -1,5 +1,6 @@
 from model.contact import Contact
 import time
+import re
 
 
 class ContactHelper:
@@ -32,7 +33,7 @@ class ContactHelper:
         self.change_field_value_contact("home", contact.home)
         self.change_field_value_contact("mobile", contact.mobile)
         self.change_field_value_contact("work", contact.work)
-        self.change_field_value_contact("fax", contact.fax)
+        self.change_field_value_contact("phone2", contact.phone2)
         self.change_field_value_contact("email", contact.email)
         self.change_field_value_contact("email2", contact.email2)
         self.change_field_value_contact("email3", contact.email3)
@@ -100,11 +101,10 @@ class ContactHelper:
             self.contact_cache = []
             for row in wd.find_elements_by_name("entry"):
                 cells = row.find_elements_by_tag_name("td")
-                firstname = cells[1].text
-                lastname = cells[2].text
+                firstname = cells[2].text
+                lastname = cells[1].text
                 id = cells[0].find_element_by_tag_name("input").get_attribute("value")
                 all_phones = cells[5].text.splitlines()
-                print(all_phones)
                 self.contact_cache.append(Contact(firstname=firstname, lastname=lastname, id=id,
                                                   home=all_phones[0], mobile=all_phones[1],
                                                   work=all_phones[2], phone2=all_phones[3]))
@@ -123,7 +123,7 @@ class ContactHelper:
         wd = self.app.wd
         self.app.open_home_page()
         row = wd.find_elements_by_name("entry")[index]
-        cell = row.find_elements_by_tag_name("td")[7]
+        cell = row.find_elements_by_tag_name("td")[6]
         cell.find_element_by_tag_name("a").click()
 
     def get_contact_info_from_edit_page(self, index):
@@ -139,5 +139,16 @@ class ContactHelper:
         phone2 = wd.find_element_by_name("phone2").get_attribute("value")
         return Contact(firstname=firstname, lastname=lastname, id=id,
                        home=home, mobile=mobile, work=work, phone2=phone2)
+
+    def get_contact_from_view_page(self, index):
+        # собираем информацию со страницы просмотра контактов
+        wd = self.app.wd
+        self.open_contact_view_by_index(index)
+        text = wd.find_element_by_id("content").text
+        home = re.search("H: (.*)", text).group(1)
+        mobile = re.search("M: (.*)", text).group(1)
+        work = re.search("W: (.*)", text).group(1)
+        phone2 = re.search("P: (.*)", text).group(1)
+        return Contact(home=home, mobile=mobile, work=work, phone2=phone2)
 
 

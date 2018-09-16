@@ -26,9 +26,10 @@ def random_email(prefix, maxlen):
 
 
 testdata = [
-    Contact(firstname=random_name("firstname", 10), lastname=random_name("lastname", 10), address=random_name("address", 10),
-                      home=random_phone("+7", 10), mobile=random_phone("+7", 10), work=random_phone("+7", 10), phone2=random_phone("+7", 10),
-                      email=random_email("e1", 10), email2=random_email("e2", 10), email3=random_email("e3", 10))
+    Contact(firstname=random_name("firstname", 10), lastname=random_name("lastname", 10),
+            address=random_name("address", 10), home=random_phone("+7", 10), mobile=random_phone("+7", 10),
+            work=random_phone("+7", 10), phone2=random_phone("+7", 10),email=random_email("e1", 10),
+            email2=random_email("e2", 10), email3=random_email("e3", 10))
     for i in range(2)
 ]
 

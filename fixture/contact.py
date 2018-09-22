@@ -66,6 +66,16 @@ class ContactHelper:
         self.open_home_page()
         self.contact_cache = None
 
+    def modify_contact_by_id(self, id, new_contact_data):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//a[@href='edit.php?id=" + id + "']").click()
+        # fill contact form
+        self.fill_contact_form(new_contact_data)
+        # submit modification
+        wd.find_element_by_name("update").click()
+        self.open_home_page()
+        self.contact_cache = None
+
     def open_modification_form(self, index):
         wd = self.app.wd
         wd.find_elements_by_xpath("//table[@id='maintable']/tbody/tr/td[8]")[index].click()
